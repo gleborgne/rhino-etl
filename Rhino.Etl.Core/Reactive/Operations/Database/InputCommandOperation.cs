@@ -53,15 +53,19 @@ namespace Rhino.Etl.Core.Reactive.Operations
                         currentCommand.ExecuteNonQuery();
                     }
                 });
-                Completed = true;
-                Observers.PropagateOnCompleted();
             }
             catch (Exception ex)
             {
-                Completed = true;
-                log4net.LogManager.GetLogger(this.GetType()).Error("command execution error", ex);
+                log4net.LogManager.GetLogger(this.GetType()).Error("Operation error", ex);
                 Observers.PropagateOnError(ex);
             }
+            finally
+            {
+                _activator.Release();
+            }
+            
+            Completed = true;
+            Observers.PropagateOnCompleted();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Rhino.Etl.Core.Reactive
     public abstract class AbstractOperation : AbstractObservableOperation, IOperation
     {
         private List<IObservableOperation> _observed = new List<IObservableOperation>();
-        
+
 
         /// <summary>
         /// List of operation observed by this operation
@@ -23,7 +23,7 @@ namespace Rhino.Etl.Core.Reactive
             {
                 return _observed;
             }
-        }        
+        }
 
         #region Observer
 
@@ -32,21 +32,12 @@ namespace Rhino.Etl.Core.Reactive
         /// </summary>
         public virtual void OnNext(Row value)
         {
-            try
-            {
-                if (value == null)
-                    throw new ArgumentNullException("Row could not be null");
+            if (value == null)
+                throw new ArgumentNullException("Row could not be null");
 
-                CountTreated++;
-                log4net.LogManager.GetLogger(GetType()).Debug("Operation " + DisplayName + " called (" + CountTreated + ")");
-                Dispatch(value); 
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger(GetType()).Error("Operation " + DisplayName + " failed", ex);
-                throw;
-            }
-                       
+            CountTreated++;
+            log4net.LogManager.GetLogger(GetType()).Debug("Operation " + DisplayName + " called (" + CountTreated + ")");
+            Dispatch(value);
         }
 
         /// <summary>
@@ -63,7 +54,9 @@ namespace Rhino.Etl.Core.Reactive
         }
 
         /// <summary>
-        /// Method called by OnNext > Dispatch to process the notified value. This method just return the value and could be overriden in subclasses
+        /// Method called by OnNext > Dispatch to process the notified value. 
+        /// This method just return the value and could be overriden in subclasses.
+        /// Return null if you want to skip the processed row
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -108,7 +101,7 @@ namespace Rhino.Etl.Core.Reactive
         /// Trigger the operation. Trigger method calls are bubbled up through the pipeline
         /// </summary>
         public override void Trigger()
-        {            
+        {
             if (Observed.Count == 0)
             {
                 OnNext(null);

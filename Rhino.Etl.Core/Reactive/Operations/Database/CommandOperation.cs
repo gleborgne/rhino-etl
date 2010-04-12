@@ -9,7 +9,7 @@ namespace Rhino.Etl.Core.Reactive.Operations.Database
     public class CommandOperation : AbstractOperation
     {
         private CommandActivator _activator;
-        
+
         /// <summary>
         /// Command operation constructor
         /// </summary>
@@ -25,33 +25,18 @@ namespace Rhino.Etl.Core.Reactive.Operations.Database
         public override void OnNext(Row value)
         {
             CountTreated++;
-            if (Observers.Count > 0 && value != null)
+            
+            _activator.UseCommand(currentCommand =>
             {
-                base.OnNext(value);
-            }
+                if (_activator.Prepare != null)
+                    _activator.Prepare(currentCommand, value);
 
-            try
-            {
-                _activator.UseCommand(currentCommand =>
-                {
-                    if (_activator.Prepare != null)
-                        _activator.Prepare(currentCommand, value);
+                log4net.LogManager.GetLogger(this.GetType()).Info(DisplayName + " Execute command " + currentCommand.CommandText);
 
-                    log4net.LogManager.GetLogger(this.GetType()).Info(DisplayName + " Execute command " + currentCommand.CommandText);
-                    
-                    currentCommand.ExecuteNonQuery();
-                });
-            }
-            catch (Exception ex)
-            {
-                log4net.LogManager.GetLogger(this.GetType()).Error("command execution error", ex);
-                OnError(ex);
-            }
+                currentCommand.ExecuteNonQuery();
+            });
 
-            if (_activator.IsQuery && value == null)
-            {
-                OnCompleted();
-            }
+            base.OnNext(value);
         }
 
         /// <summary>

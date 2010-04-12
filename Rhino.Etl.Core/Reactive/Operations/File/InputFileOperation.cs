@@ -68,17 +68,16 @@ namespace Rhino.Etl.Core.Reactive.Operations.File
                 {
                     fList = FluentFile.For<T>().From(_filename).GetEnumerator();                    
                 }
-                IterateElements(fList);
-                Completed = true;
-                Observers.PropagateOnCompleted();
+                IterateElements(fList);                
             }
             catch (Exception ex)
             {
-                Completed = true;
+                log4net.LogManager.GetLogger(this.GetType()).Error("Operation error", ex);
                 Observers.PropagateOnError(ex);
             }
 
-            
+            Completed = true;
+            Observers.PropagateOnCompleted();
         }
 
         private void IterateElements(IEnumerator fList)

@@ -41,6 +41,7 @@ namespace Rhino.Etl.Core.Reactive.Activators
 
 
         private bool _selfCreatedConnection;
+        private bool _rolled;
         private IDbCommand _currentCommand;
 
         /// <summary>
@@ -90,11 +91,26 @@ namespace Rhino.Etl.Core.Reactive.Activators
         /// <summary>
         /// Release the plumbing (connection, transaction, etc)
         /// </summary>
-        public void Release()
+        public void Rollback()
         {
             if (_selfCreatedConnection)
             {
                 if (UseTransaction)
+                {
+                    Transaction.Rollback();
+                    _rolled = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Release the plumbing (connection, transaction, etc)
+        /// </summary>
+        public void Release()
+        {
+            if (_selfCreatedConnection)
+            {
+                if (UseTransaction && !_rolled)
                 {
                     Transaction.Commit();
                 }

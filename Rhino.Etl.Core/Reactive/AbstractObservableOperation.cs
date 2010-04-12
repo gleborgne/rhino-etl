@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Rhino.Etl.Core.Reactive
 {
@@ -68,7 +66,7 @@ namespace Rhino.Etl.Core.Reactive
                 ((IOperation)observer).Observed.Add(this);
             }
             _observers.Add(observer);
-            return this;
+            return new AnonymousDisposable(() => _observers.Remove(observer));
         }
         #endregion
 

@@ -127,6 +127,7 @@
     <Compile Include="Reactive\Activators\FileWriteActivator.cs" />
     <Compile Include="Reactive\Activators\JoinActivator.cs" />
     <Compile Include="Reactive\Activators\OperationJoinActivator.cs" />
+    <Compile Include="Reactive\AnonymousDisposable.cs" />
     <Compile Include="Reactive\EtlFullResult.cs" />
     <Compile Include="Reactive\EtlResult.cs" />
     <Compile Include="Reactive\Helpers\DbExtensions.cs" />

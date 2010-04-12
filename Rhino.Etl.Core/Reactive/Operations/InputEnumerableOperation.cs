@@ -34,14 +34,15 @@ namespace Rhino.Etl.Core.Reactive.Operations
                     else
                         Observers.PropagateOnNext(Row.FromObject(elt));
                 }
-                Completed = true;
-                Observers.PropagateOnCompleted();
+                
             }
             catch (Exception ex)
             {
-                Completed = true;
                 Observers.PropagateOnError(ex);
-            }            
+            }           
+            
+            Completed = true;
+            Observers.PropagateOnCompleted(); 
         }
     }
 }
