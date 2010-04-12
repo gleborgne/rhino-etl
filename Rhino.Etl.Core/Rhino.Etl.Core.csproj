@@ -71,6 +71,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Observable, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLibs\System.Observable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +122,35 @@
     <Compile Include="Pipelines\SingleThreadedPipelineExecuter.cs" />
     <Compile Include="Exceptions\RhinoEtlException.cs" />
     <Compile Include="QuackingDictionary.cs" />
+    <Compile Include="Reactive\AbstractObservableOperation.cs" />
+    <Compile Include="Reactive\Activators\CommandActivator.cs" />
+    <Compile Include="Reactive\Activators\FileWriteActivator.cs" />
+    <Compile Include="Reactive\Activators\JoinActivator.cs" />
+    <Compile Include="Reactive\Activators\OperationJoinActivator.cs" />
+    <Compile Include="Reactive\EtlFullResult.cs" />
+    <Compile Include="Reactive\EtlResult.cs" />
+    <Compile Include="Reactive\Helpers\DbExtensions.cs" />
+    <Compile Include="Reactive\Helpers\DbHelpers.cs" />
+    <Compile Include="Reactive\Helpers\FileExtensions.cs" />
+    <Compile Include="Reactive\Helpers\Helpers.cs" />
+    <Compile Include="Reactive\Helpers\JoinExtensions.cs" />
+    <Compile Include="Reactive\Helpers\RowJoinHelper.cs" />
+    <Compile Include="Reactive\Helpers\OperationsExtensions.cs" />
+    <Compile Include="Reactive\IOperation.cs" />
+    <Compile Include="Reactive\AbstractOperation.cs" />
+    <Compile Include="Reactive\Operations\ApplyOperation.cs" />
+    <Compile Include="Reactive\Operations\Database\CommandOperation.cs" />
+    <Compile Include="Reactive\Operations\InputEnumerableOperation.cs" />
+    <Compile Include="Reactive\Operations\File\InputFileOperation.cs" />
+    <Compile Include="Reactive\Operations\File\FileWriteOperation.cs" />
+    <Compile Include="Reactive\Operations\FilterOperation.cs" />
+    <Compile Include="Reactive\IObservableOperation.cs" />
+    <Compile Include="Reactive\Operations\Database\InputCommandOperation.cs" />
+    <Compile Include="Reactive\Operations\JoinOperation.cs" />
+    <Compile Include="Reactive\Operations\RecordOperation.cs" />
+    <Compile Include="Reactive\Operations\StartOperation.cs" />
+    <Compile Include="Reactive\Operations\TransformOperation.cs" />
+    <Compile Include="Reactive\Input.cs" />
     <Compile Include="Row.cs" />
     <Compile Include="WithLoggingMixin.cs" />
   </ItemGroup>

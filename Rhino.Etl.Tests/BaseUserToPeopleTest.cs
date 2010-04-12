@@ -55,7 +55,7 @@ create table People ( id int identity, userid int not null, firstname nvarchar(2
             });
         }
 
-        protected static void AssertNames(IList<string[]> names)
+        public static void AssertNames(IList<string[]> names)
         {
             Assert.Equal("ayende", names[0][0]);
             Assert.Equal("rahien", names[0][1]);

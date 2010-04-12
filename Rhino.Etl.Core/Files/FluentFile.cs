@@ -42,6 +42,16 @@ namespace Rhino.Etl.Core.Files
         }
 
         /// <summary>
+        /// Specify which file to start reading from
+        /// </summary>
+        /// <param name="strm">text reader to the file.</param>
+        public FileEngine From(TextReader strm)
+        {
+            engine.BeginReadStream(strm);
+            return new FileEngine(engine);
+        }
+
+        /// <summary>
         /// Specify which file to start writing to
         /// </summary>
         /// <param name="filename">The filename.</param>
@@ -53,6 +63,20 @@ namespace Rhino.Etl.Core.Files
         {
             filename = NormalizeFilename(filename);
             engine.BeginWriteFile(filename);
+            return new FileEngine(engine);
+        }
+
+        /// <summary>
+        /// Specify which file to start writing to
+        /// </summary>
+        /// <param name="writer">Writer to the file.</param>
+        /// <remarks>
+        /// This will overwrite the file, use <see cref="AppendTo"/> if you want
+        /// to append.
+        /// </remarks>
+        public FileEngine To(TextWriter writer)
+        {
+            engine.BeginWriteStream(writer);
             return new FileEngine(engine);
         }
 

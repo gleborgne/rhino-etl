@@ -25,6 +25,7 @@ namespace Rhino.Etl.Tests.Joins
                 Assert.Equal(2, process.Results.Count);
                 Assert.Equal("FOO", process.Results[0]["name"]);
                 Assert.Equal("FOO@EXAMPLE.ORG", process.Results[0]["email"]);
+                Assert.Equal(5, process.Results[1]["person_id"]);
             }
         }
     }
