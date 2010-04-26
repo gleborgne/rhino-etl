@@ -6,7 +6,8 @@ namespace Rhino.Etl.Core.Reactive
     /// </summary>
     public class RowJoinHelper
     {
-        private string _fieldName;
+        private string _leftfieldName;
+        private string _rightfieldName;
 
         /// <summary>
         /// Constructor of the helper
@@ -14,7 +15,19 @@ namespace Rhino.Etl.Core.Reactive
         /// <param name="fieldName">name of the field to join</param>
         public RowJoinHelper(string fieldName)
         {
-            _fieldName = fieldName;    
+            _leftfieldName = fieldName;
+            _rightfieldName = fieldName;
+        }
+
+        /// <summary>
+        /// Constructor of the helper
+        /// </summary>
+        /// <param name="leftFieldName">name of the field to join in left row</param>
+        /// <param name="rightFieldName">name of the field to join in right row</param>
+        public RowJoinHelper(string leftFieldName, string rightFieldName)
+        {
+            _leftfieldName = leftFieldName;
+            _rightfieldName = rightFieldName;
         }
 
         /// <summary>
@@ -26,10 +39,10 @@ namespace Rhino.Etl.Core.Reactive
         public bool FullJoinMatch(Row leftRow, Row rightRow)
         {
             return 
-                rightRow == null || 
-                leftRow[_fieldName] == null || 
-                rightRow[_fieldName] == null || 
-                Equals(leftRow[_fieldName], rightRow[_fieldName]);
+                rightRow == null ||
+                leftRow[_leftfieldName] == null ||
+                rightRow[_rightfieldName] == null ||
+                Equals(leftRow[_leftfieldName], rightRow[_rightfieldName]);
         }
 
         /// <summary>
@@ -43,7 +56,7 @@ namespace Rhino.Etl.Core.Reactive
             if (rightRow == null)
                 return false;
 
-            return Equals(leftRow[_fieldName], rightRow[_fieldName]);
+            return Equals(leftRow[_leftfieldName], rightRow[_rightfieldName]);
         }
 
         /// <summary>
@@ -56,8 +69,8 @@ namespace Rhino.Etl.Core.Reactive
         {
             return 
                 rightRow == null ||
-                rightRow[_fieldName] == null || 
-                Equals(leftRow[_fieldName], rightRow[_fieldName]);
+                rightRow[_rightfieldName] == null ||
+                Equals(leftRow[_leftfieldName], rightRow[_rightfieldName]);
         }
 
         /// <summary>
@@ -71,7 +84,7 @@ namespace Rhino.Etl.Core.Reactive
             if (rightRow == null)
                 return false;
 
-            return Equals(leftRow[_fieldName], rightRow[_fieldName]) || leftRow[_fieldName] == null;
+            return Equals(leftRow[_leftfieldName], rightRow[_rightfieldName]) || leftRow[_leftfieldName] == null;
         }
 
         /// <summary>
